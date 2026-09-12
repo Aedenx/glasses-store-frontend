@@ -1,4 +1,6 @@
 import Image from "next/image";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import { collections } from "./collections-data";
 
 export default function CollectionGrid() {
@@ -39,9 +41,9 @@ function CollectionCard({
   collection: (typeof collections)[number];
 }) {
   return (
-    <a
-      href={`#${collection.slug}`}
-      className="group relative block aspect-[3/4] overflow-hidden rounded-2xl"
+    <Link
+      href={`/products?collection=${collection.slug}`}
+      className="group relative block aspect-[3/4] overflow-hidden rounded-2xl ring-1 ring-white/10 transition duration-500 hover:-translate-y-1.5 hover:ring-white/30"
     >
       <Image
         src={collection.image}
@@ -51,17 +53,33 @@ function CollectionCard({
         className="object-cover transition duration-700 group-hover:scale-110"
       />
 
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+
+      {/* BADGE */}
+      <span
+        className={`absolute left-4 top-4 rounded-full px-2.5 py-1 text-[10px] font-black uppercase tracking-[2px] text-black shadow-lg ${collection.accent}`}
+      >
+        {collection.code}
+      </span>
+
+      {/* ARROW CTA */}
+      <span className="absolute right-4 top-4 flex h-9 w-9 translate-y-2 items-center justify-center rounded-full bg-black/60 opacity-0 backdrop-blur-xl transition duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+        <ArrowUpRight className="h-4 w-4 text-white" />
+      </span>
 
       <div className="absolute inset-x-0 bottom-0 p-4">
+        <span
+          className={`mb-2 block h-1 w-10 rounded-full transition-all duration-500 group-hover:w-full ${collection.accent}`}
+        />
+
         <span className="text-[10px] uppercase tracking-[2px] text-white/60">
           {collection.tagline}
         </span>
 
-        <h3 className="mt-1 text-lg font-bold uppercase tracking-wide">
+        <h3 className="mt-1 text-lg font-bold uppercase tracking-wide transition group-hover:tracking-widest">
           {collection.name}
         </h3>
       </div>
-    </a>
+    </Link>
   );
 }
