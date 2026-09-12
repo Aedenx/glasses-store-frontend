@@ -73,6 +73,7 @@ export interface ProductVariant {
   lens_type_id: number;
   price: number;
   stock_quantity: number;
+  image: string;
 }
 
 export interface Prescription {

@@ -45,18 +45,21 @@ function swatchStyle(color: string): CSSProperties {
 
 const lightColors = new Set(["White", "Silver", "Rose", "Transparent Clear"]);
 
-export default function BuyBox({ product }: { product: ProductView }) {
+export default function BuyBox({
+  product,
+  selectedVariant,
+  onSelectVariant,
+}: {
+  product: ProductView;
+  selectedVariant: ProductView["variants"][number];
+  onSelectVariant: (id: number) => void;
+}) {
   const { addItem } = useCart();
 
-  const [variantId, setVariantId] = useState<number | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [prescription, setPrescription] = useState<Prescription | null>(null);
 
-  const selected =
-    product.variants.find((v) => v.id === variantId) ??
-    product.variants.find((v) => v.stock_quantity > 0) ??
-    product.variants[0];
-
+  const selected = selectedVariant;
   const lensType = selected ? getLensType(selected.lens_type_id) : null;
   const soldOut = selected ? selected.stock_quantity === 0 : true;
 
@@ -67,7 +70,7 @@ export default function BuyBox({ product }: { product: ProductView }) {
         product_id: product.id,
         product_slug: product.slug,
         product_name: product.name,
-        product_image: product.image,
+        product_image: selected.image,
         variant_id: selected.id,
         frame_color: selected.frame_color,
         lens_color: selected.lens_color,
@@ -95,7 +98,7 @@ export default function BuyBox({ product }: { product: ProductView }) {
                 key={variant.id}
                 type="button"
                 disabled={out}
-                onClick={() => setVariantId(variant.id)}
+                onClick={() => onSelectVariant(variant.id)}
                 className={`group relative flex items-center gap-2.5 rounded-xl border px-3.5 py-2.5 text-left transition ${
                   active
                     ? "border-emerald-400 bg-emerald-400/10"

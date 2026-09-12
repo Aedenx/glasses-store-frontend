@@ -1,4 +1,5 @@
-import { ArrowRight, Mountain, ShieldCheck, Sparkles } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, Mountain, ShieldCheck } from "lucide-react";
 
 export default function Hero() {
   return (
@@ -42,13 +43,13 @@ export default function Hero() {
           </p>
 
           <div className="mt-9 flex flex-wrap items-center gap-4">
-            <a
+            <Link
               href="/products"
               className="group inline-flex items-center gap-3 rounded-full bg-white px-8 py-4 text-xs font-bold uppercase tracking-widest text-black transition hover:-translate-y-1 hover:bg-emerald-300"
             >
               Explore Collections
               <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
-            </a>
+            </Link>
 
             <a
               href="#features"
@@ -80,17 +81,6 @@ export default function Hero() {
               <span className="rounded-full bg-emerald-400 px-3 py-1.5 text-[10px] font-black uppercase tracking-wider text-black">
                 Polarized
               </span>
-            </div>
-          </div>
-
-          {/* Floating card */}
-          <div className="absolute -left-4 -top-6 flex items-center gap-3 rounded-2xl border border-white/10 bg-black/50 p-4 backdrop-blur-xl lg:-left-10">
-            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-400/15">
-              <Sparkles className="h-5 w-5 text-emerald-300" />
-            </span>
-            <div>
-              <p className="text-xs font-bold uppercase tracking-wider">UV400</p>
-              <p className="text-[10px] text-white/50">Full Protection</p>
             </div>
           </div>
         </div>
