@@ -64,7 +64,7 @@ export const products: Product[] = [
   { id: 11, collection_id: 8, slug: "noir-allure", name: "Noir Allure", sku: "NR-NRRALR-011", base_price: 699000, gender: "Women", is_polarized: false, is_prescription_available: true, is_active: true, image: "https://i.pinimg.com/1200x/bf/c7/7e/bfc77e950e741a7144d07f871a21b123.jpg", material_id: 1, shape_id: 6, lens_type_id: 2, description: "Sensual dan premium untuk malam hari—cat-eye dengan nuansa misterius." },
   { id: 12, collection_id: 9, slug: "nomad-one", name: "Nomad One", sku: "NM-NMDONE-012", base_price: 859000, gender: "Unisex", is_polarized: true, is_prescription_available: true, is_active: true, image: "https://i.pinimg.com/1200x/06/4c/65/064c65628cd153dedb2d249e7dd5f09c.jpg", material_id: 2, shape_id: 3, lens_type_id: 3, description: "Round titanium serbaguna untuk menemani perjalanan ke mana pun kamu berlabuh." },
   { id: 13, collection_id: 10, slug: "solar-everyday", name: "Solar Everyday", sku: "SL-SLREVY-013", base_price: 549000, gender: "Women", is_polarized: true, is_prescription_available: false, is_active: true, image: "https://i.pinimg.com/1200x/10/ff/d1/10ffd14f579b73a30b2190c3d7155b25.jpg", material_id: 4, shape_id: 2, lens_type_id: 1, description: "TR90 ringan untuk gaya harian tanpa ribet—dari kafe sampai kampus." },
-  { id: 14, collection_id: 10, slug: "solar-kids", name: "Solar Kids", sku: "SL-SLRKID-014", base_price: 429000, gender: "Kids", is_polarized: true, is_prescription_available: false, is_active: true, image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=1000&auto=format&fit=crop", material_id: 3, shape_id: 3, lens_type_id: 2, description: "Kacamata anak tangguh dengan frame fleksibel dan tali pengaman." },
+  { id: 14, collection_id: 10, slug: "solar-kids", name: "Solar Kids", sku: "SL-SLRKID-014", base_price: 429000, gender: "Kids", is_polarized: true, is_prescription_available: false, is_active: true, image: "https://i.pinimg.com/1200x/1b/91/17/1b9117b5b7734b7def81b918576e88c8.jpg", material_id: 3, shape_id: 3, lens_type_id: 2, description: "Kacamata anak tangguh dengan frame fleksibel dan tali pengaman." },
 ];
 
 export const productSpecifications: ProductSpecification[] = [
@@ -125,9 +125,9 @@ const RAW_VARIANTS: (Omit<ProductVariant, "image"> & { image?: string })[] = [
   { id: 38, product_id: 13, sku: "SL-SLREVY-013-MB-SM", frame_color: "Matte Black", lens_color: "Smoke", lens_type_id: 1, price: 549000, stock_quantity: 16, image: "https://i.pinimg.com/1200x/10/ff/d1/10ffd14f579b73a30b2190c3d7155b25.jpg" },
   { id: 39, product_id: 13, sku: "SL-SLREVY-013-RS-CR", frame_color: "Rose", lens_color: "Crystal", lens_type_id: 1, price: 549000, stock_quantity: 12, image: "https://i.pinimg.com/1200x/9e/28/be/9e28beddffe9ce7faf4af0d7a4a9b43d.jpg" },
   { id: 40, product_id: 13, sku: "SL-SLREVY-013-OL-AM", frame_color: "Olive", lens_color: "Amber", lens_type_id: 1, price: 549000, stock_quantity: 9, image: "https://i.pinimg.com/736x/f3/65/62/f365629acc8ee865142b86b893b1ae6a.jpg" },
-  { id: 41, product_id: 14, sku: "SL-SLRKID-014-BL-SM", frame_color: "Blue", lens_color: "Smoke", lens_type_id: 2, price: 429000, stock_quantity: 12 },
-  { id: 42, product_id: 14, sku: "SL-SLRKID-014-RD-CR", frame_color: "Red", lens_color: "Crystal", lens_type_id: 2, price: 429000, stock_quantity: 10 },
-  { id: 43, product_id: 14, sku: "SL-SLRKID-014-GR-AM", frame_color: "Green", lens_color: "Amber", lens_type_id: 2, price: 429000, stock_quantity: 8 },
+  { id: 41, product_id: 14, sku: "SL-SLRKID-014-BL-SM", frame_color: "Blue", lens_color: "Smoke", lens_type_id: 2, price: 429000, stock_quantity: 12, image: "https://i.pinimg.com/1200x/2a/a3/5a/2aa35a42dbfe1fd2a18941d8438f34fe.jpg" },
+  { id: 42, product_id: 14, sku: "SL-SLRKID-014-RD-CR", frame_color: "Red", lens_color: "Crystal", lens_type_id: 2, price: 429000, stock_quantity: 10, image: "https://i.pinimg.com/1200x/35/b2/be/35b2be14f44aea7fa9b471bda89b4efb.jpg" },
+  { id: 43, product_id: 14, sku: "SL-SLRKID-014-GR-AM", frame_color: "Green", lens_color: "Amber", lens_type_id: 2, price: 429000, stock_quantity: 8, image: "https://i.pinimg.com/1200x/6c/ab/6f/6cab6fb370b722853867eb994c5d74f2.jpg" },
 ];
 
 const VARIANT_IMAGE_POOL = [

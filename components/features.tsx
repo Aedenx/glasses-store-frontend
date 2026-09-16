@@ -40,7 +40,7 @@ export default function Features() {
             className="rounded-2xl border border-white/10 bg-white/[0.03] p-8 transition duration-300 hover:-translate-y-1 hover:bg-white/[0.06]"
           >
 
-            <div className="mb-8 text-2xl">
+            <div className="mb-8 text-2xl text-emerald-400">
               {feature.icon}
             </div>
 

@@ -28,12 +28,12 @@ export default function ProductSpecs({
 
   return (
     <section className="mx-auto max-w-7xl px-6 pb-24 lg:px-14">
-      <div className="rounded-3xl border border-white/10 bg-white/[0.02] p-6 md:p-10">
+      <div className="rounded-3xl border border-white/10 bg-zinc-900/60 p-6 md:p-10">
         <div className="mb-8 flex items-center justify-between gap-4">
           <h2 className="text-2xl font-extrabold tracking-tight">
             Spesifikasi Teknis
           </h2>
-          <span className="rounded-full bg-emerald-400/15 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-emerald-300">
+          <span className="rounded-full border border-emerald-500/30 bg-black/70 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-emerald-400">
             {specification?.uv_protection ?? "UV400"}
           </span>
         </div>
@@ -47,7 +47,7 @@ export default function ProductSpecs({
               >
                 <d.icon className="h-5 w-5 text-emerald-400" />
                 <p className="mt-3 text-xl font-black">{d.value}</p>
-                <p className="mt-1 text-[10px] uppercase tracking-wider text-white/40">
+                <p className="mt-1 text-[10px] uppercase tracking-wider text-white/50">
                   {d.label}
                 </p>
               </div>
@@ -72,7 +72,7 @@ export default function ProductSpecs({
 
 function Chip({ icon: Icon, text }: { icon: typeof Weight; text: string }) {
   return (
-    <span className="flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-4 py-2 text-xs text-white/70">
+    <span className="flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-xs text-white/70">
       <Icon className="h-3.5 w-3.5 text-emerald-400" />
       {text}
     </span>

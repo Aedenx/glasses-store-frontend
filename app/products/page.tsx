@@ -1,5 +1,5 @@
 import ProductsCatalog from "@/components/products-catalog";
-import { queryProducts } from "@/lib/store-data";
+import { getProductViews, queryProducts } from "@/lib/store-data";
 import type { ProductFilters, SortOption } from "@/lib/store-types";
 
 const SORTS: SortOption[] = ["featured", "price-asc", "price-desc", "name"];
@@ -35,5 +35,18 @@ export default async function ProductsPage({
 
   const products = queryProducts(filters);
 
-  return <ProductsCatalog products={products} query={filters.q} />;
+  const categoryCounts = {
+    all: getProductViews().length,
+    solar: queryProducts({ collection: "solar" }).length,
+    noir: queryProducts({ collection: "noir" }).length,
+    nomad: queryProducts({ collection: "nomad" }).length,
+  };
+
+  return (
+    <ProductsCatalog
+      products={products}
+      query={filters.q}
+      categoryCounts={categoryCounts}
+    />
+  );
 }

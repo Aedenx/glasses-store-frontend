@@ -6,35 +6,35 @@ export default function Footer() {
     >
 
       <div className="text-sm text-white/50">
-        © 2026 IKHWAN VISION. All rights reserved.
+        © 2026 ID VISION. All rights reserved.
       </div>
 
       <div className="flex gap-6">
 
         <a
           href="#"
-          className="text-white/60 transition hover:text-white"
+          className="text-white/60 transition hover:text-emerald-400"
         >
           Instagram
         </a>
 
         <a
           href="#"
-          className="text-white/60 transition hover:text-white"
+          className="text-white/60 transition hover:text-emerald-400"
         >
           Facebook
         </a>
 
         <a
           href="#"
-          className="text-white/60 transition hover:text-white"
+          className="text-white/60 transition hover:text-emerald-400"
         >
           X
         </a>
 
         <a
           href="#"
-          className="text-white/60 transition hover:text-white"
+          className="text-white/60 transition hover:text-emerald-400"
         >
           Behance
         </a>

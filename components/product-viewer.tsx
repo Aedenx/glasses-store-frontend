@@ -46,20 +46,20 @@ export default function ProductViewer({
 
       <div>
         <div className="flex flex-wrap items-center gap-2">
-          <span className="rounded-full bg-emerald-400/15 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-emerald-300">
+          <span className="rounded-full border border-emerald-500/30 bg-black/70 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-emerald-400">
             {product.collection.code}
           </span>
-          <span className="rounded-full border border-white/15 px-3 py-1 text-[10px] uppercase tracking-widest text-white/50">
+          <span className="rounded-full border border-white/15 px-3 py-1 text-[10px] uppercase tracking-widest text-white/60">
             {product.gender}
           </span>
           {product.is_polarized && (
-            <span className="flex items-center gap-1 rounded-full bg-white/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest">
+            <span className="flex items-center gap-1 rounded-full border border-emerald-500/30 bg-black/70 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-emerald-400">
               <BadgeCheck className="h-3 w-3 text-emerald-400" />
               Polarized
             </span>
           )}
           {product.is_prescription_available && (
-            <span className="rounded-full border border-white/15 px-3 py-1 text-[10px] uppercase tracking-widest text-white/50">
+            <span className="rounded-full border border-white/15 px-3 py-1 text-[10px] uppercase tracking-widest text-white/60">
               Lensa resep tersedia
             </span>
           )}
@@ -73,7 +73,7 @@ export default function ProductViewer({
           {product.description}
         </p>
 
-        <div className="mt-6 flex flex-wrap items-center gap-2 text-[11px] uppercase tracking-wider text-white/50">
+        <div className="mt-6 flex flex-wrap items-center gap-2 text-[11px] uppercase tracking-wider text-white/60">
           <span className="rounded-full border border-white/15 px-3 py-1.5">
             {product.material.name}
           </span>
@@ -83,16 +83,16 @@ export default function ProductViewer({
           <span className="rounded-full border border-white/15 px-3 py-1.5">
             {product.lensType.name}
           </span>
-          <span className="ml-auto text-white/30">SKU {product.sku}</span>
+          <span className="ml-auto text-white/40">SKU {product.sku}</span>
         </div>
 
         <div className="mt-8 border-t border-white/10 pt-6">
           <div className="mb-2 flex items-baseline gap-3">
-            <span className="text-3xl font-black text-emerald-300">
+            <span className="text-3xl font-black text-emerald-400">
               {formatIDR(selected.price)}
             </span>
             {priceRange && (
-              <span className="text-sm text-white/40">
+              <span className="text-sm text-white/50">
                 s.d.{" "}
                 {formatIDR(
                   product.variants.reduce(

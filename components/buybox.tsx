@@ -101,10 +101,10 @@ export default function BuyBox({
                 onClick={() => onSelectVariant(variant.id)}
                 className={`group relative flex items-center gap-2.5 rounded-xl border px-3.5 py-2.5 text-left transition ${
                   active
-                    ? "border-emerald-400 bg-emerald-400/10"
+                    ? "border-emerald-400/80 bg-emerald-400/10"
                     : out
-                      ? "cursor-not-allowed border-white/5 bg-white/[0.01] opacity-40"
-                      : "border-white/15 bg-white/[0.03] hover:border-white/30"
+                      ? "cursor-not-allowed border-white/5 bg-white/[0.02] opacity-40"
+                      : "border-white/10 bg-white/[0.03] hover:border-white/25"
                 }`}
               >
                 <span
@@ -115,13 +115,13 @@ export default function BuyBox({
                   <span className="block text-xs font-semibold text-white">
                     {variant.frame_color}
                   </span>
-                  <span className="block text-[10px] text-white/40">
+                  <span className="block text-[10px] text-white/50">
                     {variant.lens_color} · {getLensType(variant.lens_type_id).name}{" "}
                     {out ? "· Habis" : `· ${formatIDR(variant.price)}`}
                   </span>
                 </span>
                 {active && (
-                  <Check className="h-3.5 w-3.5 shrink-0 text-emerald-300" />
+                  <Check className="h-3.5 w-3.5 shrink-0 text-emerald-400" />
                 )}
               </button>
             );
@@ -130,13 +130,13 @@ export default function BuyBox({
       </div>
 
       {/* Price + stock + qty */}
-      <div className="flex items-end justify-between rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+      <div className="flex items-end justify-between rounded-2xl border border-white/10 bg-zinc-900/60 p-5">
         <div>
-          <p className="text-[10px] uppercase tracking-wider text-white/40">
+          <p className="text-[10px] uppercase tracking-wider text-white/50">
             {selected.frame_color} · {selected.lens_color} ·{" "}
             {lensType?.name ?? "-"}
           </p>
-          <p className="mt-1 text-2xl font-black text-emerald-300">
+          <p className="mt-1 text-2xl font-black text-emerald-400">
             {formatIDR(selected.price)}
           </p>
           <p
@@ -144,8 +144,8 @@ export default function BuyBox({
               soldOut
                 ? "text-rose-400"
                 : selected.stock_quantity <= 5
-                  ? "text-amber-300"
-                  : "text-emerald-300/80"
+                  ? "text-amber-400"
+                  : "text-emerald-400"
             }`}
           >
             {soldOut
@@ -156,22 +156,22 @@ export default function BuyBox({
           </p>
         </div>
 
-        <div className="flex items-center gap-1 rounded-full border border-white/15 bg-white/5 p-1">
+        <div className="flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.04] p-1">
           <button
             type="button"
             aria-label="Kurangi"
             onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-            className="flex h-8 w-8 items-center justify-center rounded-full transition hover:bg-white/10"
+            className="flex h-8 w-8 items-center justify-center rounded-full text-white/70 transition hover:bg-white/10"
           >
             <Minus className="h-3.5 w-3.5" />
           </button>
-          <span className="w-8 text-center text-sm font-bold">{quantity}</span>
+          <span className="w-8 text-center text-sm font-bold text-white">{quantity}</span>
           <button
             type="button"
             aria-label="Tambah"
             onClick={() => setQuantity((q) => Math.min(selected.stock_quantity, q + 1))}
             disabled={soldOut || quantity >= selected.stock_quantity}
-            className="flex h-8 w-8 items-center justify-center rounded-full transition hover:bg-white/10 disabled:opacity-30"
+            className="flex h-8 w-8 items-center justify-center rounded-full text-white/70 transition hover:bg-white/10 disabled:opacity-30"
           >
             <Plus className="h-3.5 w-3.5" />
           </button>
@@ -190,7 +190,7 @@ export default function BuyBox({
         type="button"
         disabled={soldOut}
         onClick={addToCart}
-        className="flex w-full items-center justify-center gap-3 rounded-full bg-emerald-400 py-4 text-xs font-black uppercase tracking-widest text-black transition hover:bg-emerald-300 disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/30"
+        className="flex w-full items-center justify-center gap-3 rounded-full bg-emerald-500 py-4 text-xs font-black uppercase tracking-widest text-black transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/40"
       >
         <ShoppingBag className="h-4 w-4" />
         {soldOut ? "Stok Habis" : "Tambah ke Keranjang"}

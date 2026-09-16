@@ -28,7 +28,7 @@ export default function PrescriptionForm({
 
   if (disabled) {
     return (
-      <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5 text-sm text-white/50">
+      <div className="rounded-2xl border border-white/10 bg-zinc-900/60 p-5 text-sm text-white/50">
         Produk ini belum mendukung lensa resep (minus/silinder).
       </div>
     );
@@ -40,13 +40,13 @@ export default function PrescriptionForm({
   };
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+    <div className="rounded-2xl border border-white/10 bg-zinc-900/60 p-5">
       <button
         type="button"
         onClick={() => toggle(!enabled)}
         className="flex w-full items-center justify-between gap-3"
       >
-        <span className="flex items-center gap-3 text-sm font-semibold">
+        <span className="flex items-center gap-3 text-sm font-semibold text-white">
           <Eye className="h-4 w-4 text-emerald-400" />
           Gunakan Resep Mata (Minus/Silinder)
         </span>
@@ -54,7 +54,7 @@ export default function PrescriptionForm({
           role="switch"
           aria-checked={enabled}
           className={`relative h-6 w-11 shrink-0 rounded-full transition ${
-            enabled ? "bg-emerald-400" : "bg-white/15"
+            enabled ? "bg-emerald-500" : "bg-white/15"
           }`}
         >
           <span
@@ -81,21 +81,6 @@ export default function PrescriptionForm({
               setField(field === "sphere" ? "sphere_os" : field === "cylinder" ? "cylinder_os" : "axis_os", v)
             }
           />
-
-          <label className="block">
-            <span className="mb-1 block text-[10px] uppercase tracking-wider text-white/40">
-              Pupil Distance (PD) — mm
-            </span>
-            <input
-              type="number"
-              min={48}
-              max={75}
-              step={1}
-              value={value.pd_mm}
-              onChange={(e) => setField("pd_mm", Number(e.target.value) || 0)}
-              className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white outline-none transition focus:border-emerald-400/60"
-            />
-          </label>
 
           <p className="text-[11px] leading-5 text-white/40">
             Jumlah lensa pada OD/OS akan dipakai sebagai snapshot varian saat
@@ -178,7 +163,7 @@ function RxField({
         max={max}
         value={value}
         onChange={(e) => onChange(Number(e.target.value) || 0)}
-        className="w-full rounded-xl border border-white/15 bg-white/5 px-3 py-2.5 text-center text-sm text-white outline-none transition focus:border-emerald-400/60"
+        className="w-full rounded-xl border border-white/15 bg-white/[0.04] px-3 py-2.5 text-center text-sm text-white outline-none transition focus:border-emerald-400/60"
       />
     </label>
   );

@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ikhwan Vision — Outdoor Eyewear",
+  title: "ID VISION - Outdoor & Lifestyle Eyewear",
   description: "Kacamata outdoor & lifestyle. Built for Higher Ground & Bold Exploration.",
 };
 
@@ -25,7 +25,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#111213]">
+      <body className="min-h-full flex flex-col bg-[#0d0d0d]">
         <CartProvider>
           {children}
           <CartDrawer />

@@ -55,21 +55,21 @@ export default function FiltersSidebar() {
     apply(new URLSearchParams({ sort: searchParams.get("sort") ?? "" }).toString());
 
   return (
-    <div className="space-y-6 text-white">
-      <div className="mb-6 lg:hidden">
+    <div className="space-y-4 text-white">
+      <div className="mb-4 lg:hidden">
         <details className="group">
-          <summary className="flex cursor-pointer items-center gap-2 rounded-full border border-white/15 bg-white/5 px-5 py-3 text-xs font-bold uppercase tracking-widest">
+          <summary className="flex cursor-pointer items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-5 py-3 text-xs font-bold uppercase tracking-widest text-white">
             <SlidersHorizontal className="h-4 w-4 text-emerald-400" />
             Filter ({activeCount})
             <ChevronDown className="ml-auto h-4 w-4 text-white/40 transition group-open:rotate-180" />
           </summary>
-          <div className="mt-5 space-y-6">
+          <div className="mt-4 space-y-4">
             <FilterGroups searchParams={searchParams} toggle={toggle} />
           </div>
         </details>
       </div>
 
-      <div className="hidden space-y-6 lg:block">
+      <div className="hidden space-y-4 lg:block rounded-2xl border border-white/10 bg-zinc-900/60 p-6">
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
           <span className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest">
             <SlidersHorizontal className="h-4 w-4 text-emerald-400" />
@@ -78,7 +78,7 @@ export default function FiltersSidebar() {
           {activeCount > 0 && (
             <button
               onClick={clearAll}
-              className="flex items-center gap-1.5 text-[11px] text-white/50 transition hover:text-emerald-300"
+              className="flex items-center gap-1.5 text-[11px] text-white/50 transition hover:text-emerald-400"
             >
               <RotateCcw className="h-3 w-3" /> Hapus ({activeCount})
             </button>
@@ -175,7 +175,7 @@ function FilterGroup({
 }) {
   return (
     <div>
-      <p className="mb-3 text-[11px] font-bold uppercase tracking-widest text-white/40">
+      <p className="mb-2 text-[11px] font-bold uppercase tracking-widest text-white/40">
         {title}
       </p>
       <div className="flex flex-wrap gap-2">{children}</div>
@@ -197,10 +197,10 @@ function FilterOption({
   return (
     <button
       onClick={onClick}
-      className={`flex items-center gap-2 rounded-full border px-3.5 py-2 text-xs transition ${
+      className={`flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs transition ${
         active
-          ? "border-emerald-400 bg-emerald-400/15 text-emerald-300"
-          : "border-white/15 bg-white/[0.03] text-white/70 hover:border-white/30 hover:text-white"
+          ? "border-emerald-400/80 bg-emerald-400/15 text-emerald-300"
+          : "border-white/10 bg-white/[0.03] text-white/60 hover:border-emerald-400/40 hover:bg-emerald-400/5 hover:text-white"
       }`}
     >
       {dotClass && (

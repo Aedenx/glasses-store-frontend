@@ -1,7 +1,9 @@
+import Link from "next/link";
+
 export default function Lookbook() {
   return (
-    <section
-      id="lookbook"
+<section
+      id="summit"
       className="bg-[#181a1b] px-6 py-24 text-white lg:px-14"
     >
 
@@ -32,8 +34,6 @@ export default function Lookbook() {
 
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#181a1b]/40 via-transparent to-[#181a1b]/90"></div>
 
-          <div className="pointer-events-none absolute inset-0 mix-blend-color bg-[#181a1b]/30"></div>
-
           <div className="pointer-events-none absolute -left-10 top-0 h-56 w-56 rounded-full bg-[#2c2f31]/40 blur-3xl"></div>
 
         </div>
@@ -54,9 +54,12 @@ export default function Lookbook() {
 
           </div>
 
-          <button className="rounded-full bg-white px-7 py-4 text-xs font-bold uppercase text-black">
-            Pesan Model Ini
-          </button>
+<Link
+          href="/products?collection=summit"
+          className="rounded-full bg-white px-7 py-4 text-xs font-bold uppercase text-black transition hover:bg-emerald-400"
+        >
+          Pesan Model Ini
+        </Link>
 
         </div>
 

@@ -122,6 +122,6 @@ export const collections: Collection[] = [
   description: "Lifestyle harian. Minimal dan mudah dipakai setiap saat.",
   styleAttributes: "Minimal, Daily Wear",
   accent: "bg-yellow-400",
-  image: "https://i.pinimg.com/1200x/2c/30/cd/2c30cd3028d1c22afdbe58f51b033aab.jpgs",
+  image: "https://i.pinimg.com/1200x/86/8c/f0/868cf0290c04b5c1f8b1fa3c29e3dd97.jpg",
 }
 ];

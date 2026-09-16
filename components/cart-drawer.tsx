@@ -44,7 +44,7 @@ export default function CartDrawer() {
         onClick={closeCart}
       />
 
-      <aside className="absolute right-0 top-0 flex h-full w-full max-w-md flex-col bg-[#111213] text-white shadow-2xl">
+      <aside className="absolute right-0 top-0 flex h-full w-full max-w-md flex-col bg-[#0b0b0c] text-white shadow-2xl">
         {showOrderConfirmation && lastOrder ? (
           <OrderConfirmation order={lastOrder} onClose={closeCart} />
         ) : (
@@ -69,7 +69,7 @@ export default function CartDrawer() {
 
                   <button
                     onClick={clearCart}
-                    className="text-xs text-white/40 transition hover:text-rose-400"
+                    className="text-xs text-white/50 transition hover:text-rose-400"
                   >
                     Kosongkan keranjang
                   </button>
@@ -109,7 +109,7 @@ function CartHeader({ count, onClose }: { count: number; onClose: () => void }) 
 function EmptyCart({ onClose }: { onClose: () => void }) {
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-4 px-8 text-center">
-      <span className="flex h-16 w-16 items-center justify-center rounded-full bg-white/5">
+      <span className="flex h-16 w-16 items-center justify-center rounded-full bg-white/10">
         <ShoppingBag className="h-7 w-7 text-white/40" />
       </span>
       <p className="text-sm text-white/60">
@@ -117,7 +117,7 @@ function EmptyCart({ onClose }: { onClose: () => void }) {
       </p>
       <button
         onClick={onClose}
-        className="rounded-full bg-white px-6 py-3 text-xs font-bold uppercase tracking-widest text-black transition hover:bg-emerald-300"
+        className="rounded-full bg-emerald-500 px-6 py-3 text-xs font-bold uppercase tracking-widest text-black transition hover:bg-emerald-400"
       >
         Lihat Koleksi
       </button>
@@ -157,7 +157,7 @@ function CartLine({
 
       <div className="min-w-0 flex-1">
         <div className="flex items-start justify-between gap-2">
-          <h3 className="truncate text-sm font-semibold">{item.product_name}</h3>
+          <h3 className="truncate text-sm font-semibold text-white">{item.product_name}</h3>
           <button
             aria-label="Hapus item"
             onClick={onRemove}
@@ -172,9 +172,9 @@ function CartLine({
         </p>
 
         {item.prescription ? (
-          <PrescriptionBadge text={`Resep: OD ${item.prescription.sphere_od} / OS ${item.prescription.sphere_os} · PD ${item.prescription.pd_mm}mm`} />
+          <PrescriptionBadge text={`Resep: OD ${item.prescription.sphere_od} / OS ${item.prescription.sphere_os}`} />
         ) : (
-          <span className="mt-1 inline-flex rounded-full bg-white/5 px-2 py-0.5 text-[10px] text-white/40">
+          <span className="mt-1 inline-flex rounded-full bg-white/5 px-2 py-0.5 text-[10px] text-white/50">
             Tanpa resep
           </span>
         )}
@@ -199,7 +199,7 @@ function CartLine({
               <Plus className="h-3 w-3" />
             </button>
           </div>
-          <span className="text-sm font-bold">
+          <span className="text-sm font-bold text-emerald-400">
             {formatIDR(item.unit_price * item.quantity)}
           </span>
         </div>
@@ -210,7 +210,7 @@ function CartLine({
 
 function PrescriptionBadge({ text }: { text: string }) {
   return (
-    <span className="mt-1 inline-flex max-w-full items-center gap-1 rounded-full bg-emerald-400/10 px-2 py-0.5 text-[10px] text-emerald-300">
+    <span className="mt-1 inline-flex max-w-full items-center gap-1 rounded-full border border-emerald-500/30 bg-black/70 px-2 py-0.5 text-[10px] text-emerald-400">
       {text}
     </span>
   );
@@ -222,7 +222,7 @@ function TotalsPanel() {
   return (
     <div className="space-y-2 border-t border-white/10 bg-white/[0.02] px-6 py-5">
       <div className="flex items-center justify-between text-sm">
-        <span className="flex items-center gap-2 text-white/60">
+        <span className="flex items-center gap-2 text-white/50">
           <Receipt className="h-4 w-4" /> Subtotal
         </span>
         <span className="font-semibold">
@@ -231,7 +231,7 @@ function TotalsPanel() {
       </div>
 
       <div className="flex items-center justify-between text-sm">
-        <span className="flex items-center gap-2 text-white/60">
+        <span className="flex items-center gap-2 text-white/50">
           <Truck className="h-4 w-4" /> Pengiriman
         </span>
         <span className="font-semibold">
@@ -245,7 +245,7 @@ function TotalsPanel() {
 
       {totals.subtotal_amount > 0 &&
         totals.subtotal_amount < FREE_SHIPPING_THRESHOLD && (
-          <p className="rounded-lg bg-white/5 px-3 py-2 text-[11px] text-white/50">
+          <p className="rounded-lg bg-white/5 px-3 py-2 text-[11px] text-white/60">
             Belanja {formatIDR(FREE_SHIPPING_THRESHOLD - totals.subtotal_amount)}{" "}
             lagi untuk gratis ongkir.
           </p>
@@ -253,7 +253,7 @@ function TotalsPanel() {
 
       <div className="flex items-center justify-between border-t border-white/10 pt-3">
         <span className="text-sm font-bold uppercase tracking-widest">Total</span>
-        <span className="text-lg font-black text-emerald-300">
+        <span className="text-lg font-black text-emerald-400">
           {formatIDR(totals.total_amount)}
         </span>
       </div>
@@ -285,7 +285,7 @@ function CheckoutForm() {
 
   return (
     <div className="border-t border-white/10 px-6 py-5">
-      <p className="mb-3 flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-white/60">
+      <p className="mb-3 flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-white/50">
         <MapPin className="h-4 w-4 text-emerald-400" /> Alamat Pengiriman
       </p>
 
@@ -332,7 +332,7 @@ function CheckoutForm() {
       <button
         disabled={!complete || items.length === 0}
         onClick={() => placeOrder(address)}
-        className="mt-4 w-full rounded-full bg-emerald-400 py-4 text-xs font-black uppercase tracking-widest text-black transition hover:bg-emerald-300 disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/30"
+        className="mt-4 w-full rounded-full bg-emerald-500 py-4 text-xs font-black uppercase tracking-widest text-black transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/40"
       >
         Place Order (Mock Checkout)
       </button>
@@ -362,7 +362,7 @@ function Field({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 text-xs text-white placeholder-white/25 outline-none transition focus:border-emerald-400/60"
+        className="w-full rounded-lg border border-white/15 bg-white/[0.04] px-3 py-2.5 text-xs text-white placeholder-white/30 outline-none transition focus:border-emerald-400/60"
       />
     </label>
   );
@@ -392,16 +392,16 @@ function OrderConfirmation({
 
       <div className="mt-8 space-y-2 rounded-2xl border border-white/10 bg-white/[0.03] p-5">
         <p className="flex justify-between text-sm">
-          <span className="text-white/60">Subtotal</span>
+          <span className="text-white/50">Subtotal</span>
           <span>{formatIDR(order.totals.subtotal_amount)}</span>
         </p>
         <p className="flex justify-between text-sm">
-          <span className="text-white/60">Ongkir</span>
+          <span className="text-white/50">Ongkir</span>
           <span>{formatIDR(order.totals.shipping_cost)}</span>
         </p>
         <p className="flex justify-between border-t border-white/10 pt-3 text-base font-bold">
           <span>Total</span>
-          <span className="text-emerald-300">
+          <span className="text-emerald-400">
             {formatIDR(order.totals.total_amount)}
           </span>
         </p>
@@ -422,7 +422,7 @@ function OrderConfirmation({
       <div className="mt-auto">
         <button
           onClick={onClose}
-          className="w-full rounded-full bg-white py-4 text-xs font-black uppercase tracking-widest text-black transition hover:bg-emerald-300"
+          className="w-full rounded-full bg-emerald-500 py-4 text-xs font-black uppercase tracking-widest text-black transition hover:bg-emerald-400"
         >
           Selesai
         </button>

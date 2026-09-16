@@ -1,22 +1,25 @@
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 import type { ProductView } from "@/lib/store-types";
 import ProductViewer from "./product-viewer";
 import ProductSpecs from "./product-specs";
 import ProductCard from "./product-card";
+import BackButton from "./back-button";
 import { getRelatedProducts } from "@/lib/store-data";
 
 export default function ProductDetail({ product }: { product: ProductView }) {
   return (
-    <main className="min-h-screen bg-[#111213] pt-28 text-white">
+    <main className="min-h-screen bg-[#0d0d0d] pt-28 text-white">
       {/* Breadcrumb */}
-      <div className="mx-auto max-w-7xl px-6 lg:px-14">
-        <Link
-          href="/products"
-          className="mb-8 inline-flex items-center gap-2 text-xs uppercase tracking-wider text-white/50 transition hover:text-emerald-300"
-        >
-          <ArrowLeft className="h-3.5 w-3.5" /> Kembali ke Katalog
-        </Link>
+      <div className="mx-auto mb-8 flex max-w-7xl flex-wrap items-center gap-x-3 gap-y-2 px-6 lg:px-14">
+        <BackButton
+          href={`/products?collection=${product.collection.slug}`}
+          label={`Kembali ke ${product.collection.name}`}
+        />
+        <nav className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[2px] text-white/40">
+          <span>Katalog</span>
+          <span className="text-white/20">/</span>
+          <span className="text-emerald-400">{product.collection.name}</span>
+        </nav>
       </div>
 
       {/* Product hero */}
@@ -39,7 +42,7 @@ export default function ProductDetail({ product }: { product: ProductView }) {
           </h2>
           <Link
             href="/products"
-            className="text-xs uppercase tracking-wider text-white/50 transition hover:text-emerald-300"
+            className="text-xs uppercase tracking-wider text-white/50 transition hover:text-emerald-400"
           >
             Lihat Semua
           </Link>

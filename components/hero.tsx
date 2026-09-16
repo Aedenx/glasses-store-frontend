@@ -21,7 +21,7 @@ export default function Hero() {
       <div className="relative z-10 mx-auto grid w-full max-w-7xl items-end gap-14 lg:grid-cols-[1.15fr_0.85fr]">
         {/* LEFT */}
         <div>
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-[11px] font-semibold uppercase tracking-[2px] text-white/70 backdrop-blur-xl">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-[11px] font-semibold uppercase tracking-[2px] text-zinc-300 backdrop-blur-xl">
             <Mountain className="h-3.5 w-3.5 text-emerald-400" />
             Outdoor Eyewear · Est. 2026
           </div>
@@ -36,7 +36,7 @@ export default function Hero() {
             &amp; Bold Exploration
           </h1>
 
-          <p className="mt-6 max-w-lg text-sm leading-7 text-white/70 md:text-base">
+          <p className="mt-6 max-w-lg text-sm leading-7 text-zinc-400 md:text-base">
             Kacamata outdoor yang dirancang untuk petualangan tinggi — frame
             titanium ultra-ringan, lensa polarized UV400, dan karakter yang
             siap menaklukkan peak mana pun.
@@ -45,7 +45,7 @@ export default function Hero() {
           <div className="mt-9 flex flex-wrap items-center gap-4">
             <Link
               href="/products"
-              className="group inline-flex items-center gap-3 rounded-full bg-white px-8 py-4 text-xs font-bold uppercase tracking-widest text-black transition hover:-translate-y-1 hover:bg-emerald-300"
+              className="group inline-flex items-center gap-3 rounded-full bg-white px-8 py-4 text-xs font-bold uppercase tracking-widest text-black transition hover:-translate-y-1 hover:bg-emerald-400"
             >
               Explore Collections
               <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
@@ -73,12 +73,12 @@ export default function Hero() {
 
             <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-6">
               <div>
-                <span className="text-[10px] uppercase tracking-[2px] text-white/60">
+                <span className="text-[10px] uppercase tracking-[2px] text-zinc-400">
                   Summit Edition
                 </span>
-                <p className="mt-1 text-2xl font-bold">Rp 1.499k</p>
+                <p className="mt-1 text-2xl font-bold text-white">Rp 1.499k</p>
               </div>
-              <span className="rounded-full bg-emerald-400 px-3 py-1.5 text-[10px] font-black uppercase tracking-wider text-black">
+              <span className="rounded-full bg-emerald-500 px-3 py-1.5 text-[10px] font-black uppercase tracking-wider text-white">
                 Polarized
               </span>
             </div>
@@ -97,7 +97,7 @@ export default function Hero() {
             <span className="text-2xl font-black tracking-tight md:text-3xl">
               {value}
             </span>
-            <span className="text-[10px] uppercase tracking-[2px] text-white/50">
+            <span className="text-[10px] uppercase tracking-[2px] text-zinc-500">
               {label}
             </span>
           </div>
