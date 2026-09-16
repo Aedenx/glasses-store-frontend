@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import {
+  ArrowLeft,
   MapPin,
   Minus,
   PackageCheck,
@@ -31,6 +32,8 @@ export default function CartDrawer() {
     closeCart,
   } = useCart();
 
+  const [step, setStep] = useState<1 | 2>(1);
+
   const showOrderConfirmation =
     lastOrder !== null && items.length === 0 && isOpen;
 
@@ -49,11 +52,16 @@ export default function CartDrawer() {
           <OrderConfirmation order={lastOrder} onClose={closeCart} />
         ) : (
           <>
-            <CartHeader count={itemCount} onClose={closeCart} />
+            <CartHeader
+              count={itemCount}
+              onClose={closeCart}
+              step={step}
+              onBack={() => setStep(1)}
+            />
 
             {items.length === 0 ? (
               <EmptyCart onClose={closeCart} />
-            ) : (
+            ) : step === 1 ? (
               <>
                 <div className="flex-1 space-y-4 overflow-y-auto px-6 py-6">
                   {items.map((item) => (
@@ -76,8 +84,18 @@ export default function CartDrawer() {
                 </div>
 
                 <TotalsPanel />
-                <CheckoutForm />
+
+                <div className="border-t border-white/10 px-6 py-5">
+                  <button
+                    onClick={() => setStep(2)}
+                    className="w-full rounded-full bg-emerald-400 py-4 text-xs font-black uppercase tracking-widest text-black transition hover:bg-emerald-300"
+                  >
+                    Lanjut ke Alamat
+                  </button>
+                </div>
               </>
+            ) : (
+              <CheckoutForm onBack={() => setStep(1)} />
             )}
           </>
         )}
@@ -86,13 +104,33 @@ export default function CartDrawer() {
   );
 }
 
-function CartHeader({ count, onClose }: { count: number; onClose: () => void }) {
+function CartHeader({
+  count,
+  onClose,
+  step,
+  onBack,
+}: {
+  count: number;
+  onClose: () => void;
+  step: 1 | 2;
+  onBack: () => void;
+}) {
   return (
     <div className="flex items-center justify-between border-b border-white/10 px-6 py-5">
       <div className="flex items-center gap-3">
-        <ShoppingBag className="h-5 w-5 text-emerald-400" />
+        {step === 2 ? (
+          <button
+            aria-label="Kembali"
+            onClick={onBack}
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 transition hover:bg-white/10"
+          >
+            <ArrowLeft className="h-4 w-4" />
+          </button>
+        ) : (
+          <ShoppingBag className="h-5 w-5 text-emerald-400" />
+        )}
         <h2 className="text-sm font-bold uppercase tracking-widest">
-          Keranjang ({count})
+          {step === 1 ? `Keranjang (${count})` : "Alamat Pengiriman"}
         </h2>
       </div>
       <button
@@ -261,7 +299,7 @@ function TotalsPanel() {
   );
 }
 
-function CheckoutForm() {
+function CheckoutForm({ onBack }: { onBack: () => void }) {
   const { placeOrder, items } = useCart();
   const [address, setAddress] = useState<Omit<Address, "id">>({
     name: "",
@@ -284,12 +322,9 @@ function CheckoutForm() {
     address.postal_code;
 
   return (
-    <div className="border-t border-white/10 px-6 py-5">
-      <p className="mb-3 flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-white/60">
-        <MapPin className="h-4 w-4 text-emerald-400" /> Alamat Pengiriman
-      </p>
-
-      <div className="grid grid-cols-2 gap-2.5">
+    <div className="flex flex-1 flex-col overflow-y-auto px-6 py-5">
+      <div className="flex-1">
+        <div className="grid grid-cols-2 gap-2.5">
         <Field
           label="Nama"
           value={address.name}
@@ -329,13 +364,22 @@ function CheckoutForm() {
         />
       </div>
 
-      <button
-        disabled={!complete || items.length === 0}
-        onClick={() => placeOrder(address)}
-        className="mt-4 w-full rounded-full bg-emerald-400 py-4 text-xs font-black uppercase tracking-widest text-black transition hover:bg-emerald-300 disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/30"
-      >
-        Place Order (Mock Checkout)
-      </button>
+      <div className="mt-auto space-y-3 border-t border-white/10 pt-4">
+        <button
+          disabled={!complete || items.length === 0}
+          onClick={() => placeOrder(address)}
+          className="w-full rounded-full bg-emerald-400 py-4 text-xs font-black uppercase tracking-widest text-black transition hover:bg-emerald-300 disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/30"
+        >
+          Checkout Sekarang
+        </button>
+        <button
+          onClick={onBack}
+          className="w-full rounded-full border border-white/15 py-3 text-xs font-bold uppercase tracking-widest text-white/60 transition hover:bg-white/5 hover:text-white"
+        >
+          Kembali ke Keranjang
+        </button>
+      </div>
+      </div>
     </div>
   );
 }

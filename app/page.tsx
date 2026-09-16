@@ -1,4 +1,5 @@
 import Navbar from "@/components/navbar";
+import HeroBanner from "@/components/hero-banner";
 import Hero from "@/components/hero";
 import CollectionGrid from "@/components/collection-grid";
 import Lookbook from "@/components/lookbook";
@@ -7,9 +8,10 @@ import Footer from "@/components/footer";
 
 export default function Home() {
   return (
-    <main className="min-h-screen">
-
+    <main className="min-h-screen bg-white">
       <Navbar />
+
+      <HeroBanner />
 
       <Hero />
 
@@ -20,7 +22,6 @@ export default function Home() {
       <Features />
 
       <Footer />
-
     </main>
   );
 }

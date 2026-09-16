@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Lookbook() {
   return (
     <section
@@ -54,9 +56,9 @@ export default function Lookbook() {
 
           </div>
 
-          <button className="rounded-full bg-white px-7 py-4 text-xs font-bold uppercase text-black">
+          <Link href="/products?collection=summit" className="rounded-full bg-white px-7 py-4 text-xs font-bold uppercase text-black transition hover:bg-emerald-300">
             Pesan Model Ini
-          </button>
+          </Link>
 
         </div>
 

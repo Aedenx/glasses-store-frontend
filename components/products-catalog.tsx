@@ -1,6 +1,8 @@
 import { Suspense } from "react";
-import { PackageSearch } from "lucide-react";
+import { ArrowLeft, PackageSearch } from "lucide-react";
+import Link from "next/link";
 import type { ProductView } from "@/lib/store-types";
+import Navbar from "./navbar";
 import ProductCard from "./product-card";
 import FiltersSidebar from "./filters-sidebar";
 import SortSelect from "./sort-select";
@@ -13,16 +15,28 @@ export default function ProductsCatalog({
   query?: string;
 }) {
   return (
-    <section className="min-h-screen bg-[#111213] px-6 py-28 pt-36 text-white lg:px-14">
-      <div className="mx-auto max-w-7xl">
-        {/* Header */}
-        <div className="mb-10">
-          <p className="text-[11px] uppercase tracking-[3px] text-white/40">
-            Home / Products
-          </p>
-          <h1 className="mt-3 text-4xl font-extrabold tracking-tight md:text-5xl">
-            Katalog Kacamata
-          </h1>
+    <main className="min-h-screen bg-[#111213] text-white">
+      <Navbar />
+
+      <section className="px-6 py-16 lg:px-14">
+        <div className="mx-auto max-w-7xl">
+          {/* Header */}
+          <div className="mb-10">
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <p className="text-[11px] uppercase tracking-[3px] text-white/40">
+                Home / Products
+              </p>
+              <Link
+                href="/"
+                className="inline-flex items-center gap-2 rounded-lg border border-emerald-400/40 bg-emerald-400/10 px-5 py-2.5 text-sm font-semibold text-emerald-300 transition-all duration-200 hover:border-emerald-400 hover:bg-emerald-400/20 hover:text-emerald-200 hover:shadow-lg hover:shadow-emerald-400/10"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Kembali ke Beranda
+              </Link>
+            </div>
+            <h1 className="mt-3 text-4xl font-extrabold tracking-tight md:text-5xl">
+              Katalog Kacamata
+            </h1>
           <p className="mt-3 max-w-xl text-sm leading-7 text-white/60">
             Temukan frame yang cocok dengan gaya hidupmu — filter berdasarkan
             material, bentuk frame, tipe lensa, polarized, dan gender target.
@@ -71,6 +85,7 @@ export default function ProductsCatalog({
           </div>
         </div>
       </div>
-    </section>
+      </section>
+    </main>
   );
 }

@@ -10,8 +10,8 @@ export default function Hero() {
       {/* Background */}
       <div className="absolute inset-0">
         <img
-          src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2000&auto=format&fit=crop"
-          alt="Pemandangan pegunungan"
+          src="/images/Gendon.jpg"
+          alt="Gendon"
           className="h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#0d0f10]/80 via-[#0d0f10]/40 to-[#0d0f10]" />
@@ -84,24 +84,6 @@ export default function Hero() {
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Stats / bottom strip */}
-      <div className="relative z-10 mx-auto mt-16 grid w-full max-w-7xl grid-cols-3 gap-4 border-t border-white/10 pt-8">
-        {[
-          ["10+", "Collections"],
-          ["40g", "Ultra Ringan"],
-          ["100%", "UV400 Guard"],
-        ].map(([value, label]) => (
-          <div key={label} className="flex flex-col gap-1">
-            <span className="text-2xl font-black tracking-tight md:text-3xl">
-              {value}
-            </span>
-            <span className="text-[10px] uppercase tracking-[2px] text-white/50">
-              {label}
-            </span>
-          </div>
-        ))}
       </div>
     </section>
   );
