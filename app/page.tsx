@@ -1,27 +1,16 @@
-import Navbar from "@/components/navbar";
-import HeroBanner from "@/components/hero-banner";
-import Hero from "@/components/hero";
-import CollectionGrid from "@/components/collection-grid";
-import Lookbook from "@/components/lookbook";
-import Features from "@/components/features";
-import Footer from "@/components/footer";
+"use client";
 
-export default function Home() {
+import DashboardHero from "@/components/home/dashboard-hero";
+import HeroSlider from "@/components/layout/hero-slider";
+
+export default function HomePage() {
   return (
-    <main className="min-h-screen bg-white">
-      <Navbar />
+    <main className="min-h-screen bg-black text-white space-y-8 pb-12">
+      {/* Banner Utama */}
+      <DashboardHero />
 
-      <HeroBanner />
-
-      <Hero />
-
-      <CollectionGrid />
-
-      <Lookbook />
-
-      <Features />
-
-      <Footer />
+      {/* Slider Gambar */}
+      <HeroSlider />
     </main>
   );
 }

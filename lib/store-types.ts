@@ -1,103 +1,133 @@
-export type GenderTarget = "Men" | "Women" | "Unisex" | "Kids";
+// ============================================================================
+// Store Types - Tipe data untuk produk, koleksi, dan keranjang
+// ============================================================================
 
-export interface FrameMaterial {
-  id: number;
-  name: string;
-  slug: string;
-  description: string;
-}
-
-export interface FrameShape {
-  id: number;
-  name: string;
-  slug: string;
-  description: string;
-}
-
-export interface LensType {
-  id: number;
-  name: string;
-  slug: string;
-  is_polarized: boolean;
-  uv_protection: string;
-  description: string;
-}
+export type GenderTarget = "men" | "women" | "unisex" | "kids";
 
 export interface Collection {
-  id: number;
+  collection_id: number;
   code: string;
-  slug: string;
   name: string;
   tagline: string;
   description: string;
   style_attributes: string;
-  accent: string;
-  image: string;
+  banner_image_url?: string;
+  thumbnail_image_url?: string;
+  is_active: boolean;
+  display_order: number;
+}
+
+export interface FrameMaterial {
+  material_id: number;
+  name: string;
+  description?: string;
+}
+
+export interface FrameShape {
+  shape_id: number;
+  name: string;
+  description?: string;
+}
+
+export interface LensType {
+  lens_type_id: number;
+  name: string;
+  description?: string;
 }
 
 export interface Product {
-  id: number;
-  collection_id: number;
-  slug: string;
+  product_id: number;
+  sku_base: string;
   name: string;
-  sku: string;
-  description: string;
-  base_price: number;
-  gender: GenderTarget;
-  is_polarized: boolean;
-  is_prescription_available: boolean;
-  is_active: boolean;
-  image: string;
+  slug: string;
+  description?: string;
+  collection_id?: number;
   material_id: number;
   shape_id: number;
-  lens_type_id: number;
+  gender_target: GenderTarget;
+  base_price: number;
+  is_active: boolean;
+  is_featured: boolean;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface ProductSpecification {
-  id: number;
   product_id: number;
-  weight_grams: number;
-  lens_width_mm: number;
-  bridge_width_mm: number;
-  temple_length_mm: number;
-  lens_height_mm: number;
-  uv_protection: string;
+  weight_grams?: number;
+  lens_width_mm?: number;
+  bridge_width_mm?: number;
+  temple_length_mm?: number;
+  lens_height_mm?: number;
+  uv_protection?: string;
+  additional_notes?: string;
 }
 
 export interface ProductVariant {
-  id: number;
+  variant_id: number;
   product_id: number;
-  sku: string;
+  sku_variant: string;
   frame_color: string;
   lens_color: string;
   lens_type_id: number;
+  is_polarized: boolean;
   price: number;
   stock_quantity: number;
-  image: string;
+  weight_grams?: number;
+  is_active: boolean;
+}
+
+export interface ProductImage {
+  image_id: number;
+  variant_id: number;
+  image_url: string;
+  alt_text?: string;
+  is_primary: boolean;
+  display_order: number;
+}
+
+// Extended types untuk tampilan
+export interface ProductView extends Product {
+  collection?: Collection;
+  material?: FrameMaterial;
+  shape?: FrameShape;
+  primary_image?: string;
+  variants?: ProductVariant[];
+  specification?: ProductSpecification;
+  lowest_price?: number;
+}
+
+export interface ProductFilters {
+  material?: string;
+  shape?: string;
+  lens?: string;
+  polarized?: string;
+  gender?: string;
+  collection?: string;
+  q?: string;
+  sort?: SortOption;
+}
+
+export type SortOption = "featured" | "price-asc" | "price-desc" | "name";
+
+// Cart types
+export interface CartItemSnapshot {
+  variant_id: number;
+  product_id: number;
+  product_name: string;
+  product_image: string;
+  frame_color: string;
+  lens_color: string;
+  lens_type: string;
+  unit_price: number;
+  quantity: number;
+  prescription: Prescription | null;
 }
 
 export interface Prescription {
   sphere_od: number;
-  cylinder_od: number;
-  axis_od: number;
   sphere_os: number;
-  cylinder_os: number;
-  axis_os: number;
   pd_mm: number;
-}
-
-export interface CartItemSnapshot {
-  product_id: number;
-  product_slug: string;
-  product_name: string;
-  product_image: string;
-  variant_id: number;
-  frame_color: string;
-  lens_color: string;
-  lens_type: string;
-  quantity: number;
-  unit_price: number;
-  prescription: Prescription | null;
 }
 
 export interface CartTotals {
@@ -125,44 +155,12 @@ export interface Order {
   created_at: string;
 }
 
-export type SortOption = "featured" | "price-asc" | "price-desc" | "name";
-
-export type ProductFilterKeys =
-  | "material"
-  | "shape"
-  | "lens"
-  | "polarized"
-  | "gender"
-  | "collection"
-  | "sort";
-
-export interface ProductView extends Product {
-  collection: Collection;
-  material: FrameMaterial;
-  shape: FrameShape;
-  lensType: LensType;
-  offeredLensTypeIds: number[];
-  lowest_price: number;
-  in_stock: boolean;
-  variants: ProductVariant[];
-  specification: ProductSpecification | null;
-}
-
-export interface ProductFilters {
-  material?: string;
-  shape?: string;
-  lens?: string;
-  polarized?: string;
-  gender?: string;
-  collection?: string;
-  q?: string;
-  sort?: SortOption;
-}
-
+// Utility function
 export function formatIDR(value: number): string {
   return new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR",
+    minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(value);
 }

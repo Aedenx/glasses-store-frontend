@@ -3,7 +3,7 @@
 import { useState, use } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, ShieldCheck, ShoppingBag, Star, Truck } from "lucide-react";
+import { ArrowLeft, Check, ShieldCheck, ShoppingBag, Star, Truck } from "lucide-react";
 import { getProductViewBySlug } from "@/lib/store-data";
 import { formatIDR } from "@/lib/store-types";
 import { useCart } from "@/components/cart/cart-provider";
@@ -22,10 +22,10 @@ export default function ProductDetailPage({
 
   if (!product) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-black p-4 text-white">
+      <div className="flex min-h-screen flex-col items-center justify-center bg-black text-white">
         <h1 className="text-2xl font-bold uppercase">Produk Tidak Ditemukan</h1>
         <p className="mt-2 text-sm text-zinc-400">
-          Produk yang Anda cari tidak tersedia.
+          Produk yang Anda cari mungkin sudah tidak tersedia.
         </p>
         <Link
           href="/products"
@@ -49,6 +49,17 @@ export default function ProductDetailPage({
     product.primary_image ||
     "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=800";
 
+  const handleBuyNow = () => {
+    addToCart({
+      id: product.product_id.toString(),
+      name: `${product.name} (${selectedVariant.frame_color} / ${selectedVariant.lens_color})`,
+      price: currentPrice,
+      image: imageUrl,
+      quantity: 1,
+    });
+    router.push("/checkout");
+  };
+
   const handleAddToCart = () => {
     addToCart({
       id: product.product_id.toString(),
@@ -59,16 +70,11 @@ export default function ProductDetailPage({
     });
   };
 
-  const handleBuyNow = () => {
-    handleAddToCart();
-    router.push("/checkout");
-  };
-
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Top Nav Back */}
-      <div className="border-b border-zinc-800/80 px-4 py-3 md:px-8">
-        <div className="mx-auto flex max-w-6xl items-center gap-4">
+      <div className="border-b border-zinc-800 px-4 py-4 md:px-8">
+        <div className="mx-auto flex max-w-7xl items-center gap-4">
           <Link
             href="/products"
             className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-zinc-400 transition hover:text-white"
@@ -79,40 +85,39 @@ export default function ProductDetailPage({
         </div>
       </div>
 
-      <main className="mx-auto max-w-6xl px-4 py-6 md:px-8 md:py-10">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-start">
-          
-          {/* Gambar Produk - Ukuran Lebih Kecil & Pas (lg:col-span-5) */}
-          <div className="lg:col-span-5">
-            <div className="relative flex max-h-[360px] w-full items-center justify-center overflow-hidden rounded-2xl border border-zinc-800/80 bg-zinc-900/60 p-4">
+      <main className="mx-auto max-w-7xl px-4 py-8 md:px-8 lg:py-12">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
+          {/* Gambar Produk */}
+          <div className="lg:col-span-7">
+            <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900">
               <img
                 src={imageUrl}
                 alt={product.name}
-                className="max-h-[320px] w-full object-contain transition-transform duration-300 hover:scale-105"
+                className="h-full w-full object-cover object-center"
               />
               {product.collection && (
-                <div className="absolute left-3 top-3 rounded-md bg-emerald-500 px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-black">
+                <div className="absolute left-4 top-4 rounded-full bg-emerald-500 px-4 py-1.5 text-xs font-extrabold uppercase tracking-wider text-black">
                   {product.collection.name}
                 </div>
               )}
             </div>
           </div>
 
-          {/* Details & Varian - Diperluas (lg:col-span-7) */}
-          <div className="flex flex-col justify-between space-y-6 lg:col-span-7">
-            <div className="space-y-4">
-              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-emerald-400">
-                <Star size={14} fill="currentColor" className="text-amber-400" />
-                <span>5.0 (Review Pilihan)</span>
+          {/* Details & Varian */}
+          <div className="flex flex-col justify-between lg:col-span-5">
+            <div className="space-y-6">
+              <div>
+                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-emerald-400">
+                  <Star size={14} fill="currentColor" className="text-amber-400" />
+                  <span>5.0 (Review Pilihan)</span>
+                </div>
+                <h1 className="mt-2 text-2xl font-black uppercase tracking-tight text-white md:text-3xl">
+                  {product.name}
+                </h1>
+                <p className="mt-3 text-2xl font-extrabold text-emerald-400">
+                  {formatIDR(currentPrice)}
+                </p>
               </div>
-
-              <h1 className="text-2xl font-black uppercase tracking-tight text-white md:text-3xl">
-                {product.name}
-              </h1>
-
-              <p className="text-2xl font-black text-emerald-400">
-                {formatIDR(currentPrice)}
-              </p>
 
               <p className="text-xs leading-relaxed text-zinc-400 md:text-sm">
                 {product.description ||
@@ -121,7 +126,7 @@ export default function ProductDetailPage({
 
               {/* Varian Warna */}
               {product.variants && product.variants.length > 0 && (
-                <div className="space-y-2 pt-2">
+                <div className="space-y-3 pt-2">
                   <label className="text-xs font-bold uppercase tracking-wider text-zinc-300">
                     Pilih Varian Frame & Lensa:
                   </label>
@@ -130,7 +135,7 @@ export default function ProductDetailPage({
                       <button
                         key={v.variant_id}
                         onClick={() => setSelectedVariantIndex(idx)}
-                        className={`rounded-xl border px-3.5 py-1.5 text-xs font-bold transition-all ${
+                        className={`rounded-xl border px-4 py-2 text-xs font-bold transition-all ${
                           selectedVariantIndex === idx
                             ? "border-emerald-500 bg-emerald-500/10 text-emerald-400 ring-1 ring-emerald-500"
                             : "border-zinc-800 bg-zinc-900 text-zinc-400 hover:border-zinc-700"
@@ -144,37 +149,35 @@ export default function ProductDetailPage({
               )}
 
               {/* Fitur Keunggulan */}
-              <div className="grid grid-cols-2 gap-3 border-t border-zinc-800/80 pt-4">
+              <div className="grid grid-cols-2 gap-3 pt-4 border-t border-zinc-800">
                 <div className="flex items-center gap-2 text-xs text-zinc-300">
-                  <ShieldCheck size={16} className="shrink-0 text-emerald-400" />
+                  <ShieldCheck size={16} className="text-emerald-400 shrink-0" />
                   <span>Proteksi UV400</span>
                 </div>
                 <div className="flex items-center gap-2 text-xs text-zinc-300">
-                  <Truck size={16} className="shrink-0 text-emerald-400" />
+                  <Truck size={16} className="text-emerald-400 shrink-0" />
                   <span>Bisa Kirim Se-Indonesia</span>
                 </div>
               </div>
             </div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 border-t border-zinc-800/80 pt-5">
+            <div className="mt-8 flex flex-col gap-3 pt-6 border-t border-zinc-800">
               <button
                 onClick={handleBuyNow}
-                className="flex-1 rounded-xl bg-emerald-500 py-3 text-xs font-extrabold uppercase tracking-widest text-black shadow-lg transition hover:bg-emerald-400 active:scale-95"
+                className="w-full rounded-xl bg-emerald-500 py-3.5 text-xs font-extrabold uppercase tracking-widest text-black shadow-lg transition hover:bg-emerald-400 active:scale-95"
               >
-                Beli Sekarang (Checkout)
+                Beli Sekarang (Langsung Checkout)
               </button>
               <button
                 onClick={handleAddToCart}
-                className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-zinc-700 bg-zinc-900 py-3 text-xs font-extrabold uppercase tracking-widest text-white transition hover:bg-zinc-800 active:scale-95"
+                className="flex w-full items-center justify-center gap-2 rounded-xl border border-zinc-700 bg-zinc-900 py-3.5 text-xs font-extrabold uppercase tracking-widest text-white transition hover:bg-zinc-800 active:scale-95"
               >
                 <ShoppingBag size={16} />
-                <span>+ Keranjang</span>
+                <span>+ Masukkan Keranjang</span>
               </button>
             </div>
-
           </div>
-
         </div>
       </main>
     </div>

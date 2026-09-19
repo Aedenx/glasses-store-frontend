@@ -18,7 +18,7 @@ export default function Hero() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(52,211,153,0.18),transparent_55%)]" />
       </div>
 
-      <div className="relative z-10 mx-auto grid w-full max-w-7xl items-end gap-14 lg:grid-cols-[1.15fr_0.85fr]">
+      <div className="relative z-10 mx-auto grid w-full max-w-7xl items-end gap-14">
         {/* LEFT */}
         <div>
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-[11px] font-semibold uppercase tracking-[2px] text-white/70 backdrop-blur-xl">
@@ -58,30 +58,6 @@ export default function Hero() {
               <ShieldCheck className="h-4 w-4 text-emerald-400" />
               UV400 Guarantee
             </a>
-          </div>
-        </div>
-
-        {/* RIGHT */}
-        <div className="relative">
-          <div className="relative overflow-hidden rounded-3xl border border-white/10 shadow-2xl">
-            <img
-              src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?q=80&w=800&auto=format&fit=crop"
-              alt="Kacamata outdoor premium"
-              className="h-[420px] w-full object-cover transition duration-700 hover:scale-105 lg:h-[500px]"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-
-            <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-6">
-              <div>
-                <span className="text-[10px] uppercase tracking-[2px] text-white/60">
-                  Summit Edition
-                </span>
-                <p className="mt-1 text-2xl font-bold">Rp 1.499k</p>
-              </div>
-              <span className="rounded-full bg-emerald-400 px-3 py-1.5 text-[10px] font-black uppercase tracking-wider text-black">
-                Polarized
-              </span>
-            </div>
           </div>
         </div>
       </div>
