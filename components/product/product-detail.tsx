@@ -21,7 +21,7 @@ interface ProductDetailProps {
 export default function ProductDetail({ product }: ProductDetailProps) {
   const { addItem } = useCart();
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(
-    product.variants?.[0] || null
+    product.variants?.[0] || null,
   );
   const [quantity, setQuantity] = useState(1);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
@@ -33,20 +33,13 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   const handleAddToCart = () => {
     if (!selectedVariant) return;
 
-    addItem(
-      {
-        variant_id: selectedVariant.variant_id,
-        product_id: product.product_id,
-        product_name: product.name,
-        product_image: imageUrl,
-        frame_color: selectedVariant.frame_color,
-        lens_color: selectedVariant.lens_color,
-        lens_type: "Polarized",
-        unit_price: selectedVariant.price,
-        prescription: null,
-      },
-      quantity
-    );
+    addItem({
+      id: String(selectedVariant.variant_id),
+      name: `${product.name} - ${selectedVariant.frame_color} / ${selectedVariant.lens_color}`,
+      price: selectedVariant.price,
+      image: imageUrl,
+      quantity: quantity,
+    });
   };
 
   return (
@@ -233,7 +226,9 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           <div className="flex gap-3">
             <button
               onClick={handleAddToCart}
-              disabled={!selectedVariant || selectedVariant.stock_quantity === 0}
+              disabled={
+                !selectedVariant || selectedVariant.stock_quantity === 0
+              }
               className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-emerald-500 px-6 py-4 text-sm font-bold uppercase tracking-wider text-black transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <ShoppingBag size={18} />
