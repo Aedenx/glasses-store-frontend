@@ -1,127 +1,168 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-
-const slides = [
-  {
-    src: "/images/deni.jpg",
-    alt: "Deni",
-    title: "UPGRADE YOUR LOOK",
-    desc: "Tampil Lebih Confident dengan Seri Kacamata Terbaru dari IDVISION",
-    cta: "BELI SEKARANG",
-    href: "/products",
-  },
-  {
-    src: "/images/ikhwan.jpg",
-    alt: "Ikhwan",
-    title: "EXPLORE YOUR STYLE",
-    desc: "Kacamata Premium untuk Aktivitas Outdoor & Sehari-hari",
-    cta: "BELI SEKARANG",
-    href: "/products",
-  },
-  {
-    src: "/images/merbabu.jpg",
-    alt: "Merbabu",
-    title: "DEFINE YOUR IDENTITY",
-    desc: "Koleksi Eksklusif IDVISION untuk Tampilan yang Berbeda",
-    cta: "LIHAT KOLEKSI",
-    href: "/products",
-  },
-];
+import { getBanners, Banner } from "@/lib/site-data";
 
 export default function HeroSlider() {
+  const [banners, setBanners] = useState<Banner[]>([]);
   const [current, setCurrent] = useState(0);
 
-  const next = useCallback(() => {
-    setCurrent((prev) => (prev + 1) % slides.length);
+  // Ref untuk fitur Swipe Layar HP
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+
+  useEffect(() => {
+    getBanners().then((data) => {
+      if (data && data.length > 0) {
+        setBanners(data);
+      }
+    });
   }, []);
+
+  const next = useCallback(() => {
+    if (banners.length === 0) return;
+    setCurrent((prev) => (prev + 1) % banners.length);
+  }, [banners.length]);
 
   const prev = useCallback(() => {
-    setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
-  }, []);
+    if (banners.length === 0) return;
+    setCurrent((prev) => (prev - 1 + banners.length) % banners.length);
+  }, [banners.length]);
 
-  // Slide otomatis tiap 2 detik
+  // Slide Otomatis tiap 4 detik
   useEffect(() => {
-    const interval = setInterval(next, 2000);
+    if (banners.length <= 1) return;
+    const interval = setInterval(next, 4000);
     return () => clearInterval(interval);
-  }, [next]);
+  }, [next, banners.length]);
 
-  const slide = slides[current];
+  // Handler Usap/Swipe Layar HP
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return;
+    const distance = touchStartX.current - touchEndX.current;
+
+    // Geser Kiri -> Next, Geser Kanan -> Prev
+    if (distance > 50) {
+      next();
+    } else if (distance < -50) {
+      prev();
+    }
+
+    touchStartX.current = 0;
+    touchEndX.current = 0;
+  };
+
+  if (banners.length === 0) return null;
+
+  const slide = banners[current];
 
   return (
-    <section className="px-4 py-4 md:px-8">
-      <div className="relative h-[420px] w-full overflow-hidden rounded-2xl md:h-[500px]">
-        {/* Full Background Slider Image */}
-        {slides.map((s, i) => (
-          <div
-            key={s.src}
-            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-              i === current ? "opacity-100 z-10" : "opacity-0 z-0"
-            }`}
-          >
-            <img
-              src={s.src}
-              alt={s.alt}
-              className="h-full w-full object-cover object-center"
-            />
-            {/* Overlay tipis seragam biar teks tetep kebaca jelas */}
-            <div className="absolute inset-0 bg-black/25" />
-          </div>
-        ))}
+    <section className="px-3 py-2 md:px-8 md:py-4">
+      <div
+        className="relative h-[480px] sm:h-[520px] w-full overflow-hidden rounded-2xl md:h-[550px] select-none touch-pan-y"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        {/* LAYER 1: Gambar Banner Carousel */}
+        {banners.map((s, i) => {
+          const imgUrl = s.image.startsWith("http")
+            ? s.image
+            : `http://localhost:8000/storage/${s.image}`;
 
-        {/* Text area di kiri bawah (gaya Eiger/Outlive) */}
-        <div className="absolute bottom-8 left-6 z-20 max-w-lg text-left text-white md:bottom-12 md:left-12">
-          <h2 className="text-3xl font-extrabold tracking-tight drop-shadow-md md:text-5xl">
+          return (
+            <div
+              key={s.id || i}
+              className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                i === current ? "opacity-100 z-0" : "opacity-0 -z-10"
+              }`}
+            >
+              <img
+                src={imgUrl}
+                alt={s.title}
+                className="h-full w-full object-cover object-center"
+              />
+            </div>
+          );
+        })}
+
+        {/* LAYER 2: Overlay Gelap Vertikal */}
+        <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none" />
+
+        {/* LAYER 3: Konten Teks & Tombol (Vertikal Rapi di Mobile) */}
+        <div className="absolute bottom-6 left-4 right-4 z-20 flex flex-col items-start gap-3 text-left text-white md:bottom-12 md:left-12 md:right-auto md:max-w-xl">
+          {/* Judul Banner */}
+          <h2 className="text-2xl font-black uppercase tracking-tight drop-shadow-md sm:text-3xl md:text-5xl leading-tight">
             {slide.title}
           </h2>
-          <p className="mt-2 text-xs font-medium text-gray-100 drop-shadow md:text-sm">
-            {slide.desc}
-          </p>
+
+          {/* Subjudul */}
+          {slide.subtitle && (
+            <p className="text-xs font-medium text-zinc-300 drop-shadow line-clamp-2 sm:text-sm md:text-base">
+              {slide.subtitle}
+            </p>
+          )}
+
+          {/* Tombol CTA */}
+          {slide.cta_label && (
+            <div className="pt-1">
+              <Link
+                href={slide.cta_link || "/products"}
+                className="inline-flex items-center justify-center rounded-xl bg-emerald-500 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-black shadow-lg transition-all hover:bg-emerald-400 active:scale-95 md:px-6 md:py-3 md:text-sm"
+              >
+                {slide.cta_label}
+              </Link>
+            </div>
+          )}
         </div>
 
-        {/* Tombol CTA di kanan bawah */}
-        <div className="absolute bottom-8 right-6 z-20 md:bottom-12 md:right-12">
-          <Link
-            href={slide.href}
-            className="inline-block rounded-md bg-white px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-black shadow-lg transition-transform hover:scale-105 hover:bg-gray-100 md:px-6 md:py-3 md:text-sm"
-          >
-            {slide.cta}
-          </Link>
-        </div>
-
-        {/* Tombol panah navigasi kiri & kanan */}
-        <button
-          onClick={prev}
-          aria-label="Previous slide"
-          className="absolute left-3 top-1/2 z-30 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-sm transition-all hover:bg-black/60"
-        >
-          <ArrowLeft className="h-5 w-5" />
-        </button>
-        <button
-          onClick={next}
-          aria-label="Next slide"
-          className="absolute right-3 top-1/2 z-30 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-sm transition-all hover:bg-black/60"
-        >
-          <ArrowRight className="h-5 w-5" />
-        </button>
-
-        {/* Titik navigasi slider di bagian bawah tengah */}
-        <div className="absolute bottom-4 left-1/2 z-30 flex -translate-x-1/2 gap-2">
-          {slides.map((_, i) => (
+        {/* LAYER 4: Panah Navigasi (KHUSUS DESKTOP / HIDDEN DI HP) */}
+        {banners.length > 1 && (
+          <>
             <button
-              key={i}
-              onClick={() => setCurrent(i)}
-              aria-label={`Go to slide ${i + 1}`}
-              className={`h-2 cursor-pointer rounded-full transition-all duration-300 ${
-                i === current
-                  ? "w-6 bg-white"
-                  : "w-2 bg-white/40 hover:bg-white/70"
-              }`}
-            />
-          ))}
-        </div>
+              onClick={prev}
+              aria-label="Previous slide"
+              className="hidden md:flex absolute left-4 top-1/2 z-30 h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-md transition-all hover:bg-emerald-500 hover:text-black"
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </button>
+            <button
+              onClick={next}
+              aria-label="Next slide"
+              className="hidden md:flex absolute right-4 top-1/2 z-30 h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-md transition-all hover:bg-emerald-500 hover:text-black"
+            >
+              <ArrowRight className="h-5 w-5" />
+            </button>
+          </>
+        )}
+
+        {/* LAYER 5: Titik Indikator Slider (Pojok Kanan Bawah di HP) */}
+        {banners.length > 1 && (
+          <div className="absolute bottom-6 right-4 z-30 flex gap-1.5 md:left-1/2 md:right-auto md:-translate-x-1/2 md:bottom-4">
+            {banners.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrent(i)}
+                aria-label={`Go to slide ${i + 1}`}
+                className={`h-1.5 cursor-pointer rounded-full transition-all duration-300 ${
+                  i === current
+                    ? "w-5 bg-emerald-400"
+                    : "w-1.5 bg-white/40 hover:bg-white"
+                }`}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

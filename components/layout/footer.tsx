@@ -1,12 +1,45 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Mountain, Phone, Mail, MapPin, Globe, MessageCircle } from "lucide-react";
+import {
+  Mountain,
+  Phone,
+  Mail,
+  MapPin,
+  Globe,
+  MessageCircle,
+} from "lucide-react";
+import { getSiteSettings } from "@/lib/site-data";
 
 export default function Footer() {
-  const whatsappNumber = "6285877669323";
+  const [siteSettings, setSiteSettings] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    // Ambil data settings terbaru dari API Laravel
+    getSiteSettings().then((data) => {
+      if (data) {
+        setSiteSettings(data);
+      }
+    });
+  }, []);
+
+  // Ambil nilai dari Admin Panel (dengan fallback default jika kosong)
+  const siteName = siteSettings.site_name || "IDVISION";
+  const siteDescription =
+    siteSettings.site_description || "Kacamata Gaya & Outdoor IDVISION";
+  const address =
+    siteSettings.address || "Jl. Pahlawan No. 15, Magelang, Jawa Tengah 56111";
+  const phone = siteSettings.phone || "0858-7766-9323";
+  const email = siteSettings.email || "support@idvision.com";
+  const whatsappNumber = siteSettings.whatsapp_number || "6285877669323";
+
+  const logoFooterUrl = siteSettings.footer_logo
+    ? `http://localhost:8000/storage/${siteSettings.footer_logo}`
+    : null;
+
   const defaultMessage = encodeURIComponent(
-    "Halo IDVision, saya ingin bertanya tentang produk kacamata gaya."
+    `Halo ${siteName}, saya ingin bertanya tentang produk kacamata gaya.`,
   );
   const waUrl = `https://wa.me/${whatsappNumber}?text=${defaultMessage}`;
 
@@ -14,38 +47,73 @@ export default function Footer() {
     <footer className="border-t border-zinc-800 bg-zinc-950 text-zinc-400">
       <div className="mx-auto max-w-7xl px-4 py-12 md:px-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
-          
-          {/* Kolom 1: Brand & Slogan Kacamata Gaya */}
+          {/* Kolom 1: Brand & Slogan Kacamata Gaya Dinamis */}
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2 text-white">
-              <Mountain className="h-6 w-6 text-emerald-400" />
-              <span className="text-xl font-extrabold uppercase tracking-widest">
-                <span className="text-emerald-400">ID</span>Vision
-              </span>
+              {logoFooterUrl ? (
+                <img
+                  src={logoFooterUrl}
+                  alt={siteName}
+                  className="h-8 w-auto object-contain"
+                />
+              ) : (
+                <>
+                  <Mountain className="h-6 w-6 text-emerald-400" />
+                  <span className="text-xl font-extrabold uppercase tracking-widest">
+                    <span className="text-emerald-400">
+                      {siteName.substring(0, 2)}
+                    </span>
+                    {siteName.substring(2)}
+                  </span>
+                </>
+              )}
             </Link>
+
             <p className="text-xs font-semibold uppercase tracking-wider text-emerald-400">
-              Kacamata Gaya & Outdoor IDVision
+              {siteDescription}
             </p>
             <p className="text-xs leading-relaxed text-zinc-400">
-              Koleksi kacamata gaya modern dengan perlindungan UV400 penuh dan lensa polarized. Tampil confident di setiap momen gaya hidup urban dan petualangan outdoor Anda.
+              Koleksi kacamata gaya modern dengan perlindungan UV400 penuh dan
+              lensa polarized. Tampil confident di setiap momen gaya hidup urban
+              dan petualangan outdoor Anda.
             </p>
+
             <div className="flex gap-4 pt-2">
-              {/* Instagram SVG */}
-              <a href="https://instagram.com" target="_blank" rel="noreferrer" className="text-zinc-400 transition hover:text-emerald-400" aria-label="Instagram">
-                <svg className="h-[18px] w-[18px] fill-current" viewBox="0 0 24 24">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noreferrer"
+                className="text-zinc-400 transition hover:text-emerald-400"
+                aria-label="Instagram"
+              >
+                <svg
+                  className="h-[18px] w-[18px] fill-current"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
                 </svg>
               </a>
-
-              {/* Facebook SVG */}
-              <a href="https://facebook.com" target="_blank" rel="noreferrer" className="text-zinc-400 transition hover:text-emerald-400" aria-label="Facebook">
-                <svg className="h-[18px] w-[18px] fill-current" viewBox="0 0 24 24">
-                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noreferrer"
+                className="text-zinc-400 transition hover:text-emerald-400"
+                aria-label="Facebook"
+              >
+                <svg
+                  className="h-[18px] w-[18px] fill-current"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                 </svg>
               </a>
-
-              {/* Website / Globe Icon */}
-              <a href="https://youtube.com" target="_blank" rel="noreferrer" className="text-zinc-400 transition hover:text-emerald-400" aria-label="Website">
+              <a
+                href="https://youtube.com"
+                target="_blank"
+                rel="noreferrer"
+                className="text-zinc-400 transition hover:text-emerald-400"
+                aria-label="Website"
+              >
                 <Globe size={18} />
               </a>
             </div>
@@ -58,66 +126,121 @@ export default function Footer() {
             </h3>
             <ul className="space-y-2 text-xs">
               <li>
-                <Link href="/" className="transition hover:text-emerald-400">Dashboard</Link>
+                <Link href="/" className="transition hover:text-emerald-400">
+                  Dashboard
+                </Link>
               </li>
               <li>
-                <Link href="/about" className="transition hover:text-emerald-400">Tentang Kami (About)</Link>
+                <Link
+                  href="/about"
+                  className="transition hover:text-emerald-400"
+                >
+                  Tentang Kami (About)
+                </Link>
               </li>
               <li>
-                <Link href="/products" className="transition hover:text-emerald-400">Katalog Kacamata</Link>
+                <Link
+                  href="/products"
+                  className="transition hover:text-emerald-400"
+                >
+                  Katalog Kacamata
+                </Link>
               </li>
               <li>
-                <Link href="/promo" className="transition hover:text-emerald-400">Voucher & Promo</Link>
+                <Link
+                  href="/promo"
+                  className="transition hover:text-emerald-400"
+                >
+                  Voucher & Promo
+                </Link>
               </li>
               <li>
-                <Link href="/store" className="transition hover:text-emerald-400">Lokasi Store</Link>
+                <Link
+                  href="/store"
+                  className="transition hover:text-emerald-400"
+                >
+                  Lokasi Store
+                </Link>
               </li>
             </ul>
           </div>
 
-          {/* Kolom 3: Kategori Kacamata Gaya */}
+          {/* Kolom 3: Koleksi Favorit */}
           <div className="space-y-3">
             <h3 className="text-xs font-bold uppercase tracking-widest text-white">
               Koleksi Favorit
             </h3>
             <ul className="space-y-2 text-xs">
               <li>
-                <Link href="/products?category=summit" className="transition hover:text-emerald-400">Kacamata Summit (Outdoor)</Link>
+                <Link
+                  href="/products?category=summit"
+                  className="transition hover:text-emerald-400"
+                >
+                  Kacamata Summit (Outdoor)
+                </Link>
               </li>
               <li>
-                <Link href="/products?category=solar" className="transition hover:text-emerald-400">Kacamata Polarized Solar</Link>
+                <Link
+                  href="/products?category=solar"
+                  className="transition hover:text-emerald-400"
+                >
+                  Kacamata Polarized Solar
+                </Link>
               </li>
               <li>
-                <Link href="/products?category=noir" className="transition hover:text-emerald-400">Kacamata Gaya Noir Series</Link>
+                <Link
+                  href="/products?category=noir"
+                  className="transition hover:text-emerald-400"
+                >
+                  Kacamata Gaya Noir Series
+                </Link>
               </li>
               <li>
-                <Link href="/products?gender=pria" className="transition hover:text-emerald-400">Kacamata Gaya Pria</Link>
+                <Link
+                  href="/products?gender=pria"
+                  className="transition hover:text-emerald-400"
+                >
+                  Kacamata Gaya Pria
+                </Link>
               </li>
               <li>
-                <Link href="/products?gender=wanita" className="transition hover:text-emerald-400">Kacamata Gaya Wanita</Link>
+                <Link
+                  href="/products?gender=wanita"
+                  className="transition hover:text-emerald-400"
+                >
+                  Kacamata Gaya Wanita
+                </Link>
               </li>
             </ul>
           </div>
 
-          {/* Kolom 4: Kontak & Direct WhatsApp */}
+          {/* Kolom 4: Kontak & WhatsApp Dinamis */}
           <div className="space-y-3">
             <h3 className="text-xs font-bold uppercase tracking-widest text-white">
               Layanan Pelanggan
             </h3>
             <ul className="space-y-2.5 text-xs">
               <li className="flex items-start gap-2">
-                <MapPin size={15} className="mt-0.5 shrink-0 text-emerald-400" />
-                <span>Jl. Pahlawan No. 15, Magelang, Jawa Tengah 56111</span>
+                <MapPin
+                  size={15}
+                  className="mt-0.5 shrink-0 text-emerald-400"
+                />
+                <span>{address}</span>
               </li>
               <li className="flex items-center gap-2">
                 <Phone size={15} className="shrink-0 text-emerald-400" />
-                <a href={waUrl} target="_blank" rel="noreferrer" className="transition hover:text-emerald-400">
-                  0858-7766-9323
+                <a
+                  href={waUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="transition hover:text-emerald-400"
+                >
+                  {phone}
                 </a>
               </li>
               <li className="flex items-center gap-2">
                 <Mail size={15} className="shrink-0 text-emerald-400" />
-                <span>support@idvision.com</span>
+                <span>{email}</span>
               </li>
             </ul>
 
@@ -134,12 +257,14 @@ export default function Footer() {
               </a>
             </div>
           </div>
-
         </div>
 
         {/* Garis Pembatas & Copyright */}
         <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-zinc-800/80 pt-6 text-[11px] text-zinc-500 sm:flex-row">
-          <p>© {new Date().getFullYear()} IDVision Eyewear. All rights reserved.</p>
+          <p>
+            © {new Date().getFullYear()} {siteName} Eyewear. All rights
+            reserved.
+          </p>
           <p className="font-medium text-zinc-400">
             Pusat Kacamata Gaya & Proteksi Lensa UV400 Terpercaya
           </p>
